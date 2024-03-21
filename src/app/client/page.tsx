@@ -33,31 +33,16 @@ export default () => {
     const fetchPokemons = async () => {
         const result: pokemonType[] = [];
         (await fetchResul()).forEach(async (e)=>{
-            result.push(await fetchPokemon(e.url));
+            const pokemonResult = await fetchPokemon(e.url)
+            result.push(pokemonResult);
+            pokemon.add(pokemonResult);
         })
         return result
     }
 
     useEffect(()=>{
-        setPokemons([])
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=2")
-            .then(result=>result.json())
-            .then(result=>{
-                const resultUsable: Array<{name: string, url: string}> = result.results;
-                for (const r of resultUsable){
-                    fetch(r.url)
-                        .then(result=>result.json())
-                        .then(result=>{
-                            const pokemonsCopy = pokemons
-                            pokemonsCopy.push(new pokemonType(result.id, result.name, result.sprites.front_default))
-                            setPokemons(pokemonsCopy)
-                            console.log(result);
-                        })
-                        .catch(err=>console.error(err))
-                }
-                console.log(result.results);
-            })
-            .catch(err=>console.error(err))
+        pokemon.clear()
+        fetchPokemons()
     }, [])
 
     return (
