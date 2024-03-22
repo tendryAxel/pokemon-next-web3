@@ -3,6 +3,7 @@
 import pokemonType from "@/classes/pokemon";
 import PokemonDesc from "@/components/PokemonDesc"
 import useList from "@/hooks/useList";
+import { fetchPokemon } from "@/utils/fetch";
 import { Divider, Flex, list } from "@chakra-ui/react"
 import { useEffect } from "react"
 
@@ -15,20 +16,6 @@ export default () => {
         const jsonResult = (await fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")).json()
         const allResult: requestResult[] = (await jsonResult).results
         return allResult
-    }
-
-    const fetchPokemon = async (url: string): Promise<pokemonType> => {
-        const jsonResult: Promise<{
-            id: number,
-            name: string,
-            sprites:{front_default: string}
-        }> = (await fetch(url)).json();
-
-        return new pokemonType(
-            (await jsonResult).id,
-            (await jsonResult).name,
-            (await jsonResult).sprites.front_default
-        );
     }
 
     const fetchPokemons = async () => {

@@ -2,6 +2,7 @@
 
 import pokemonType from "@/classes/pokemon"
 import { Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text } from "@chakra-ui/react"
+import Link from "next/link"
 import { FC } from "react"
 
 interface Props {
@@ -29,9 +30,11 @@ const PokemonDesc: FC<Props> = ({ pokemon }) => {
                 </CardBody>
 
                 <CardFooter>
-                <Button variant='solid' colorScheme='blue'>
-                    Details
-                </Button>
+                <Link href={`client/${pokemon.id}`}>
+                    <Button variant='solid' colorScheme='blue'>
+                        Details
+                    </Button>
+                </Link>
                 </CardFooter>
             </Stack>
         </Card>
