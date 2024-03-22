@@ -70,7 +70,7 @@ export default () => {
             flexWrap={"wrap"}
             alignItems="center"
             justifyContent="space-evenly"
-            gap="3em">
+            gap="1em">
             <Divider w="90%" />
             {
                 pokemon.list.map((pokemon)=>{

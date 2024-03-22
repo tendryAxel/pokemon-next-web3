@@ -11,24 +11,21 @@ interface Props {
 const PokemonDesc: FC<Props> = ({ pokemon }) => {
     return (
         <Card
-            direction={{ base: 'column', sm: 'row' }}
+            direction="row"
             overflow='hidden'
             variant='outline'
+            w="19em"
             >
             <Image
                 objectFit='cover'
-                maxW={{ base: '100%', sm: '400px' }}
                 src={pokemon.sprite}
                 alt='Pokemon fa miandry kely'
+                w="65%"
             />
 
-            <Stack>
+            <Stack w="35%">
                 <CardBody>
-                <Heading size='md'>{pokemon.name}</Heading>
-
-                <Text py='2'>
-                    id: {pokemon.id}
-                </Text>
+                <Heading whiteSpace="nowrap"size='md'>{pokemon.name}</Heading>
                 </CardBody>
 
                 <CardFooter>
