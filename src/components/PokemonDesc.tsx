@@ -1,5 +1,3 @@
-"use client"
-
 import pokemonType from "@/classes/pokemon"
 import { Button, Card, CardBody, CardFooter, Heading, Image, Stack, Text } from "@chakra-ui/react"
 import Link from "next/link"
