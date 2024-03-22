@@ -4,16 +4,19 @@ import pokemonType from "@/classes/pokemon";
 import PokemonDesc from "@/components/PokemonDesc"
 import useList from "@/hooks/useList";
 import { fetchPokemon } from "@/utils/fetch";
-import { Divider, Flex, list } from "@chakra-ui/react"
-import { useEffect } from "react"
+import { Button, Divider, Flex, list } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 interface requestResult {name: string, url: string};
 
 export default () => {
     const pokemon = useList<pokemonType>([])
+    const [ page, setPage ] = useState(0)
 
     const fetchResul = async (): Promise<requestResult[]> => {
-        const jsonResult = (await fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")).json()
+        const jsonResult = (await fetch(`https://pokeapi.co/api/v2/pokemon?limit=50&offset=${(page || 0) * 50}`)).json()
         const allResult: requestResult[] = (await jsonResult).results
         return allResult
     }
@@ -45,7 +48,7 @@ export default () => {
 
         doAction()
         // console.log(pokemon.list);
-    }, [])
+    }, [page])
 
     useEffect(()=>{
         console.log("new liste " + pokemon.list.length);
@@ -64,6 +67,10 @@ export default () => {
                     return <PokemonDesc key={pokemon.name} pokemon={pokemon} />
                 })
             }
+            <Flex>
+                <Button leftIcon={<FaMinus />} onClick={()=>setPage(page - 1)} />
+                <Button leftIcon={<FaPlus />} onClick={()=>setPage(page + 1)} />
+            </Flex>
         </Flex>
     )
 }
