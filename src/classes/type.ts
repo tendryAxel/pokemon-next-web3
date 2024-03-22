@@ -1,4 +1,7 @@
 export default interface Type {
-    name: string;
-    url: string;
+    slot: number;
+    type: {
+        name: string;
+        url: string;
+    }
 }

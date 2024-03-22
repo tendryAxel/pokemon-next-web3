@@ -9,6 +9,8 @@ export const fetchPokemon = async (url: string): Promise<pokemonType> => {
         types: Type[]
     }> = (await fetch(url)).json();
 
+    console.log(jsonResult);
+
     return new pokemonType(
         (await jsonResult).id,
         (await jsonResult).name,

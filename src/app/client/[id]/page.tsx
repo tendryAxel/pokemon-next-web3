@@ -2,8 +2,10 @@
 
 import pokemonType from "@/classes/pokemon"
 import { fetchPokemon } from "@/utils/fetch"
-import { Container, Flex, Heading, Image, SimpleGrid, Stack, StackDivider, Text, useColorModeValue } from "@chakra-ui/react"
+import { Button, Container, Flex, Heading, Image, SimpleGrid, Stack, StackDivider, Text, useColorModeValue } from "@chakra-ui/react"
+import Link from "next/link"
 import { useEffect, useState } from "react"
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 export default (params: { params: {id: number} }) => {
     const [ pokemon, setPokemon ] = useState<pokemonType>();
@@ -27,21 +29,27 @@ export default (params: { params: {id: number} }) => {
               />
             </Flex>
             <Stack spacing={5}>
+                <Link href="/client"><Button leftIcon={<IoReturnDownBackOutline />} /></Link>
               <Heading>{pokemon?.name}</Heading>
               <Text color={'gray.500'} fontSize={'lg'}>
                 id: {pokemon?.id}
               </Text>
-              <Text
-                textTransform={'uppercase'}
-                color={'blue.400'}
-                fontWeight={600}
-                fontSize={'sm'}
-                bg={useColorModeValue('blue.50', 'blue.900')}
-                p={2}
-                alignSelf={'flex-start'}
-                rounded={'md'}>
-                Type
-              </Text>
+              <Flex direction="row" gap="1em">
+                {pokemon?.type.map(e=>{
+                    return <Text
+                        textTransform={'uppercase'}
+                        color={'blue.400'}
+                        fontWeight={600}
+                        fontSize={'sm'}
+                        bg={useColorModeValue('blue.50', 'blue.900')}
+                        p={2}
+                        alignSelf={'flex-start'}
+                        rounded={'md'}>
+                        {e.type.name}
+                    </Text>
+                })
+                }
+              </Flex>
               <Stack
                 spacing={4}
                 divider={
