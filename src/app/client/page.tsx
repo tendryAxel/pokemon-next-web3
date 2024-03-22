@@ -3,8 +3,8 @@
 import pokemonType from "@/classes/pokemon";
 import PokemonDesc from "@/components/PokemonDesc"
 import useList from "@/hooks/useList";
-import { Divider, Flex } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { Divider, Flex, list } from "@chakra-ui/react"
+import { useEffect } from "react"
 
 interface requestResult {name: string, url: string};
 
@@ -13,7 +13,8 @@ export default () => {
 
     const fetchResul = async (): Promise<requestResult[]> => {
         const jsonResult = (await fetch("https://pokeapi.co/api/v2/pokemon?limit=50&offset=0")).json()
-        return (await jsonResult).results
+        const allResult: requestResult[] = (await jsonResult).results
+        return allResult
     }
 
     const fetchPokemon = async (url: string): Promise<pokemonType> => {
@@ -32,28 +33,48 @@ export default () => {
 
     const fetchPokemons = async () => {
         const result: pokemonType[] = [];
-        (await fetchResul()).forEach(async (e)=>{
-            const pokemonResult = await fetchPokemon(e.url)
-            result.push(pokemonResult);
-            pokemon.add(pokemonResult);
-        })
+        for (const e of await fetchResul()) {
+            result.push(await fetchPokemon(e.url));
+        }
         return result
     }
 
     useEffect(()=>{
-        pokemon.clear()
-        fetchPokemons()
+        const doAction = () => {
+            fetchPokemons()
+                .then(e=>{
+                    console.log("Content du then start");
+                    console.log(e)
+                    console.log(e.length)
+                    console.log(e[0])
+                    console.log("Content du then end");
+                    return e
+                })
+                .then((e: pokemonType[])=>{
+                    console.log(e);
+                    pokemon.setList(e)
+                })
+        }
+
+        doAction()
+        // console.log(pokemon.list);
     }, [])
+
+    useEffect(()=>{
+        console.log("new liste " + pokemon.list.length);
+    }, [pokemon.list])
 
     return (
         <Flex
-            direction="column"
+            direction="row"
+            flexWrap={"wrap"}
             alignItems="center"
+            justifyContent="space-evenly"
             gap="3em">
             <Divider w="90%" />
             {
                 pokemon.list.map((pokemon)=>{
-                    return <PokemonDesc key={pokemon.id} pokemon={pokemon} />
+                    return <PokemonDesc key={pokemon.name} pokemon={pokemon} />
                 })
             }
         </Flex>

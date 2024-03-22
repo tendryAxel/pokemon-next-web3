@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ChakraProvider><body>{children}</body></ChakraProvider>
+      <body><ChakraProvider>{children}</ChakraProvider></body>
     </html>
   );
 }

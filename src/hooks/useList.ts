@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export default function useList<T>(init: T[]): {
     list: T[],
     add: (element: T)=>T,
     clear: ()=>boolean,
+    replace: (index: number, value: T)=>T,
+    setList: Dispatch<SetStateAction<T[]>>,
 } {
     const [list, setList] = useState(init);
 
@@ -19,5 +21,12 @@ export default function useList<T>(init: T[]): {
         return true
     }
 
-    return {list, add, clear}
+    const replace = (index: number, value: T): T => {
+        const copyList = list.slice();
+        copyList[index] = value;
+        setList(copyList);
+        return value;
+    }
+
+    return {list, add, clear, replace, setList}
 }
